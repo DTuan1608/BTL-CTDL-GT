@@ -8,6 +8,7 @@ using namespace std;
 //Dữ liệu về bác sĩ
 struct Bac_si{
 	string Ho_tenBS;
+    string Ma_so;
 	string Chuc_vu;
 	long Gia_kham;
 };
@@ -45,6 +46,8 @@ void InsertBS(DSBS &H) {
     cout << "Nhap thong tin bac si can them nhu sau:" << endl;
     cout << "Ho ten BS:";
     getline(cin, k.Ho_tenBS);
+    cout << "Ma so: ";
+    getline(cin, k.Ma_so);
     cout << "Chuc vu:";
     getline(cin, k.Chuc_vu);
     cout << "Gia kham:";
@@ -94,27 +97,37 @@ void DeleteBS(DSBS &H, string hotenBS){
     }
 }
 //FindBS(......)
-BSNODE FINDBS(DSBS &H, string hotenBS){
-    cout << "Nhap ten Bac si can tim: ";
-    cin >> hotenBS;
+BSNODE FINDBS(DSBS &H, string MS){
+    cout << "Nhap ma so Bac si can tim: ";
+    cin >> MS;
     BSNODE Q = H;
     while(Q->nextBS != NULL){
-        if(Q->BS.Ho_tenBS == hotenBS){
+        if(Q->BS.Ma_so == MS){
             return Q;
         }
         Q = Q->nextBS;
     }
     return NULL;
 }
-void FixBS(DSBS &H, BSNODE BSBF, BSNODE BSAF) //BSBF - Bác sĩ trước khi sửa, BSAF - Bác sĩ sau khi sửa
-{
-    cout << "Nhap thong tin BS sau khi sua" << endl;
-    cin >> BSAF->BS.Ho_tenBS;
-    cin.ignore();
-    cin >> BSAF->BS.Chuc_vu;
-    cin.ignore();
-    cin >> BSAF->BS.Gia_kham;
-    BSBF = BSAF;
+void FixBS(DSBS& H, string MS) {
+    BSNODE P = FINDBS(H, MS);
+    
+    if (P != NULL) {
+        cout << "Nhap thong tin moi cho BS:" << endl;
+        cout << "Ho va ten: ";
+        getline(cin, P->BS.Ho_tenBS);
+        cout << "Ma so: ";
+        cin >> P->BS.Ma_so;
+        cin.ignore();
+        cout << "Chuc vu: ";
+        getline(cin, P->BS.Chuc_vu);
+        cin.ignore(); 
+        cout << "Gia kham: ";
+        cin >> P->BS.Gia_kham;
+        cin.ignore();
+    } else {
+        return; 
+    }
 }
 
 void PrintBS(DSBS &H) {
@@ -132,13 +145,13 @@ void PrintBS(DSBS &H) {
 int main(){
     DSBS BSS;
     InitBS(BSS);
-    Bac_si BS1 = {"Nguyen Van A", "Bac si tim mach", 500000};
-    Bac_si BS2 = {"Nguyen Van B", "Bac si tai mui hong", 800000};
-    Bac_si BS3 = {"Nguyen Van C", "Bac si da lieu", 400000};
-    Bac_si BS4 = {"Nguyen Van D", "Y ta", 100000};
-    Bac_si BS5 = {"Nguyen Van E", "Dieu duong", 50000};
+    
+    Bac_si BS1 = {"Nguyen Van A", "MS01", "Bac si tim mach", 500000};
+    Bac_si BS2 = {"Nguyen Van B", "MS02", "Bac si tai mui hong", 800000};
+    Bac_si BS3 = {"Nguyen Van C", "MS03", "Bac si da lieu", 400000};
+    Bac_si BS4 = {"Nguyen Van D", "MS04", "Y ta", 100000};
+    Bac_si BS5 = {"Nguyen Van E", "MS05", "Dieu duong", 50000};
 
-    InsertBSS(BSS, BS1);
     InsertBSS(BSS, BS2);
     InsertBSS(BSS, BS3);
     InsertBSS(BSS, BS4);
